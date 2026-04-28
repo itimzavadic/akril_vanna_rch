@@ -1,0 +1,8 @@
+{
+  "currency": "BYN",
+  "prices": {
+    "size_1_2": 300,
+    "size_1_5": 350,
+    "size_1_7": 400
+  }
+}

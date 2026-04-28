@@ -6,6 +6,41 @@
   var closeEls = document.querySelectorAll("[data-close-modal]");
   var modalTitleEl = document.getElementById("modal-title");
   var lastActive = null;
+  var pricesConfigPath = "txt/prices.json";
+
+  function applyPrices(pricesData) {
+    if (!pricesData || typeof pricesData !== "object") return;
+    var prices = pricesData.prices;
+    var currency = typeof pricesData.currency === "string" ? pricesData.currency.trim() : "BYN";
+    if (!prices || typeof prices !== "object") return;
+
+    document.querySelectorAll("[data-price-key]").forEach(function (priceEl) {
+      var key = priceEl.getAttribute("data-price-key");
+      if (!key) return;
+      var value = prices[key];
+      if (typeof value !== "number" && typeof value !== "string") return;
+      var parsedValue = typeof value === "number" ? value : Number(String(value).replace(",", "."));
+      if (!Number.isFinite(parsedValue)) return;
+      priceEl.textContent = "от " + Math.round(parsedValue) + " " + currency;
+    });
+  }
+
+  function initPrices() {
+    if (!window.fetch) return;
+    fetch(pricesConfigPath, { cache: "no-store" })
+      .then(function (response) {
+        if (!response.ok) {
+          throw new Error("Failed to load prices JSON");
+        }
+        return response.json();
+      })
+      .then(function (data) {
+        applyPrices(data);
+      })
+      .catch(function () {
+        // Keep hardcoded prices in HTML as fallback.
+      });
+  }
 
   function openModal(fromBtn) {
     if (!modal) return;
@@ -387,5 +422,7 @@
       }
     });
   }
+
+  initPrices();
 
 })();
