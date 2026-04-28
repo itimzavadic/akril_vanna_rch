@@ -478,6 +478,10 @@ button {
 #prices.block {
   padding-top: 40px;
 }
+/* Меньше зазор между «Галерея» и следующим блоком */
+#gallery.block {
+  padding-bottom: 40px;
+}
 /* Меньше зазор между «Речица» и «Отзывы» */
 #rechitsa.block--city {
   padding: 64px 20px 40px 20px;
@@ -1505,10 +1509,10 @@ button.btn--ghost-cta:not([disabled]):active {
   color: #2d3340;
 }
 
-/* Gallery: до/после — одна линия из четырёх компактных плиток */
+/* Gallery: примеры работ в один ряд */
 .before-after {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 8px 10px;
   margin-top: 8px;
   align-items: start;
@@ -1517,32 +1521,59 @@ button.btn--ghost-cta:not([disabled]):active {
   margin: 0;
   min-width: 0;
   text-align: center;
-  color: var(--color-muted);
-  font-size: 0.7rem;
 }
-.before-after__item figcaption {
-  margin-top: 2px;
-  line-height: 1.2;
-  font-size: 0.68rem;
+.before-after__link {
+  display: block;
 }
-.placeholder-img {
-  aspect-ratio: 3 / 2;
-  max-height: 96px;
+.before-after__img {
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(160deg, #d8dee8 0%, #eef1f6 100%);
-  color: #5c6370;
-  font-size: clamp(0.62rem, 1.8vw, 0.8rem);
-  font-weight: 600;
+  height: auto;
+  display: block;
   border-radius: 6px;
-  border: 1px dashed #b0b8c5;
+  border: 1px solid #cfd7e3;
   box-sizing: border-box;
-  margin-bottom: 4px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
-.placeholder-img--alt {
-  background: linear-gradient(160deg, #b8c8d8 0%, #dce3ec 100%);
+.before-after__link:hover .before-after__img,
+.before-after__link:focus-visible .before-after__img {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(12, 48, 88, 0.2);
+}
+@media (max-width: 879px) {
+  /* Мобайл: меньше стык между «Преимущества» и «Комплекс» */
+  #advantages.block {
+    padding-bottom: 34px;
+  }
+  #kompleks.block {
+    padding-top: 30px;
+  }
+
+  /* Галерея: горизонтальный свайп и фото крупнее в пределах экрана */
+  #gallery .before-after {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 12px;
+    padding: 2px 2px 8px;
+    margin-top: 10px;
+  }
+  #gallery .before-after__item {
+    flex: 0 0 min(82vw, 420px);
+    scroll-snap-align: center;
+  }
+  #gallery .before-after__img {
+    width: 100%;
+    height: auto;
+  }
+  #gallery .before-after::-webkit-scrollbar {
+    height: 6px;
+  }
+  #gallery .before-after::-webkit-scrollbar-thumb {
+    background: rgba(10, 45, 90, 0.3);
+    border-radius: 999px;
+  }
 }
 
 /* City block — белый фон; ширина колонок как в блоке «О нас» */
@@ -1945,6 +1976,64 @@ button.btn--ghost-cta:not([disabled]):active {
 .modal__close:focus {
   background: #f0f3f8;
   color: #000;
+}
+
+/* Gallery lightbox */
+.lightbox[hidden] {
+  display: none;
+}
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 260;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+.lightbox__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 16, 34, 0.82);
+  backdrop-filter: blur(2px);
+}
+.lightbox__dialog {
+  position: relative;
+  z-index: 1;
+  max-width: min(96vw, 1200px);
+  max-height: 92vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lightbox__img {
+  display: block;
+  max-width: 100%;
+  max-height: 92vh;
+  width: auto;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.38);
+}
+.lightbox__close {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  color: #fff;
+  background: rgba(6, 18, 40, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  font-size: 1.4rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.lightbox__close:hover,
+.lightbox__close:focus-visible {
+  background: rgba(6, 18, 40, 0.92);
 }
 
 /* Смещение к якорям: в js/main.js (чтобы не дублировалось с scroll-padding) */

@@ -5,7 +5,12 @@
   var openBtns = document.querySelectorAll("[data-open-modal]");
   var closeEls = document.querySelectorAll("[data-close-modal]");
   var modalTitleEl = document.getElementById("modal-title");
+  var lightbox = document.querySelector("[data-lightbox]");
+  var lightboxImg = document.querySelector("[data-lightbox-img]");
+  var lightboxLinks = document.querySelectorAll(".before-after__link");
+  var lightboxCloseEls = document.querySelectorAll("[data-lightbox-close]");
   var lastActive = null;
+  var lastLightboxActive = null;
   var pricesConfigPath = "txt/prices.json";
 
   function applyPrices(pricesData) {
@@ -65,6 +70,31 @@
     }
   }
 
+  function openLightbox(linkEl) {
+    if (!lightbox || !lightboxImg || !linkEl) return;
+    var src = linkEl.getAttribute("href");
+    if (!src) return;
+    var imgEl = linkEl.querySelector("img");
+    lastLightboxActive = document.activeElement;
+    lightboxImg.setAttribute("src", src);
+    lightboxImg.setAttribute("alt", imgEl ? imgEl.getAttribute("alt") || "" : "");
+    lightbox.removeAttribute("hidden");
+    lightbox.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeLightbox() {
+    if (!lightbox || !lightboxImg) return;
+    lightbox.setAttribute("hidden", "hidden");
+    lightbox.setAttribute("aria-hidden", "true");
+    lightboxImg.setAttribute("src", "");
+    lightboxImg.setAttribute("alt", "");
+    document.body.style.overflow = "";
+    if (lastLightboxActive && typeof lastLightboxActive.focus === "function") {
+      lastLightboxActive.focus();
+    }
+  }
+
   openBtns.forEach(function (btn) {
     btn.addEventListener("click", function () {
       openModal(btn);
@@ -72,6 +102,15 @@
   });
   closeEls.forEach(function (el) {
     el.addEventListener("click", closeModal);
+  });
+  lightboxLinks.forEach(function (link) {
+    link.addEventListener("click", function (e) {
+      e.preventDefault();
+      openLightbox(link);
+    });
+  });
+  lightboxCloseEls.forEach(function (el) {
+    el.addEventListener("click", closeLightbox);
   });
   document.addEventListener("keydown", function (e) {
     if (e.key !== "Escape") return;
@@ -82,6 +121,10 @@
     }
     if (modal && !modal.hasAttribute("hidden")) {
       closeModal();
+      return;
+    }
+    if (lightbox && !lightbox.hasAttribute("hidden")) {
+      closeLightbox();
     }
   });
 

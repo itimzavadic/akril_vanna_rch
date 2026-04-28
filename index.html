@@ -456,24 +456,34 @@
         <div class="container">
           <div class="before-after">
             <figure class="before-after__item">
-              <div class="placeholder-img" role="img" aria-label="Фото «до» — изображение скоро">До</div>
-              <figcaption>До</figcaption>
+              <a class="before-after__link" href="img/img_0508.png">
+                <img class="before-after__img" src="img/img_0508.png" alt="Пример реставрации ванны 1" loading="lazy" />
+              </a>
             </figure>
             <figure class="before-after__item">
-              <div class="placeholder-img placeholder-img--alt" role="img" aria-label="Фото «после» — изображение скоро">
-                После
-              </div>
-              <figcaption>После</figcaption>
+              <a class="before-after__link" href="img/img_0511.png">
+                <img class="before-after__img" src="img/img_0511.png" alt="Пример реставрации ванны 2" loading="lazy" />
+              </a>
             </figure>
             <figure class="before-after__item">
-              <div class="placeholder-img" role="img" aria-label="Фото «до» — изображение скоро">До</div>
-              <figcaption>До</figcaption>
+              <a class="before-after__link" href="img/img_0512.png">
+                <img class="before-after__img" src="img/img_0512.png" alt="Пример реставрации ванны 3" loading="lazy" />
+              </a>
             </figure>
             <figure class="before-after__item">
-              <div class="placeholder-img placeholder-img--alt" role="img" aria-label="Фото «после» — изображение скоро">
-                После
-              </div>
-              <figcaption>После</figcaption>
+              <a class="before-after__link" href="img/img_0528.png">
+                <img class="before-after__img" src="img/img_0528.png" alt="Пример реставрации ванны 4" loading="lazy" />
+              </a>
+            </figure>
+            <figure class="before-after__item">
+              <a class="before-after__link" href="img/img_0555varot.png">
+                <img
+                  class="before-after__img"
+                  src="img/img_0555varot.png"
+                  alt="Пример реставрации ванны 5"
+                  loading="lazy"
+                />
+              </a>
             </figure>
           </div>
         </div>
@@ -720,22 +730,21 @@
             <p class="contacts__line"><strong>Адрес:</strong> <span class="placeholder">уточняется</span></p>
             <p class="contacts__line"><strong>Время работы:</strong> с 9:00 до 21:00, без выходных</p>
             <p class="contacts__line">
-              <strong>Email:</strong> <span class="placeholder">уточняется</span>
+              <strong>Email:</strong> <a href="mailto:himchistkasvetlogorsk@mail.ru">himchistkasvetlogorsk@mail.ru</a>
             </p>
             <p class="contacts__line">
               <strong>Телефон:</strong> <a href="tel:+375291278349">+375 29 127-83-49</a>
             </p>
             <p class="contacts__line"><strong>УНП</strong> 791062180</p>
             <div class="social-row">
-              <a class="social social--viber" href="viber://chat?number=%2B375291278349" rel="noopener" target="_blank" aria-label="Viber"
+              <a class="social social--viber" href="viber://chat?number=%2B375444969700" rel="noopener" target="_blank" aria-label="Viber"
                 >Viber</a
               >
               <a
                 class="social social--tg"
-                href="https://t.me/"
+                href="tg://resolve?phone=375291278349"
                 rel="noopener"
                 target="_blank"
-                title="В href подставьте @username"
                 >Telegram</a
               >
             </div>
@@ -791,6 +800,13 @@
           <button type="submit" class="btn btn--primary btn--block">Отправить</button>
           <p class="form__success" data-form-success hidden>Спасибо! Сообщение принято.</p>
         </form>
+      </div>
+    </div>
+    <div class="lightbox" hidden data-lightbox aria-hidden="true">
+      <div class="lightbox__backdrop" data-lightbox-close></div>
+      <div class="lightbox__dialog" role="dialog" aria-modal="true" aria-label="Просмотр фото">
+        <button type="button" class="lightbox__close" data-lightbox-close aria-label="Закрыть">&times;</button>
+        <img class="lightbox__img" data-lightbox-img src="" alt="" />
       </div>
     </div>
 
