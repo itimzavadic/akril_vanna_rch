@@ -12,6 +12,7 @@
   var lastActive = null;
   var lastLightboxActive = null;
   var pricesConfigPath = "txt/prices.json";
+  var formsEndpoint = "https://formsubmit.co/ajax/himchistkasvetlogorsk@mail.ru";
 
   function applyPrices(pricesData) {
     if (!pricesData || typeof pricesData !== "object") return;
@@ -362,15 +363,53 @@
     if (el2) scrollToAnchor(el2, true);
   });
 
-  // Forms: без бэкенда — показ подтверждения
+  // Forms: отправка заявок на почту через FormSubmit
   document.querySelectorAll("form[data-form]").forEach(function (form) {
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       var success = form.querySelector("[data-form-success]");
-      if (success) {
-        success.removeAttribute("hidden");
-        form.reset();
+      var submitBtn = form.querySelector("button[type='submit']");
+      var originalBtnText = submitBtn ? submitBtn.textContent : "";
+      if (!window.fetch) return;
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Отправляем...";
       }
+
+      var payload = new FormData(form);
+      payload.append("_subject", "Новая заявка с сайта AkrilVanna");
+      payload.append("_template", "table");
+      payload.append("_captcha", "false");
+      payload.append("form_type", form.getAttribute("data-form") || "unknown");
+
+      fetch(formsEndpoint, {
+        method: "POST",
+        headers: {
+          Accept: "application/json"
+        },
+        body: payload
+      })
+        .then(function (response) {
+          if (!response.ok) throw new Error("Send failed");
+          if (success) {
+            success.textContent = "Спасибо! Заявка отправлена, скоро свяжемся с Вами.";
+            success.removeAttribute("hidden");
+          }
+          form.reset();
+        })
+        .catch(function () {
+          if (success) {
+            success.textContent = "Не удалось отправить заявку. Позвоните нам: +375 29 127-83-49.";
+            success.removeAttribute("hidden");
+          }
+        })
+        .finally(function () {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalBtnText;
+          }
+        });
     });
   });
 
